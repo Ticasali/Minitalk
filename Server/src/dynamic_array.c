@@ -6,7 +6,7 @@
 /*   By: ticasali <ticasali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 03:29:33 by ticasali          #+#    #+#             */
-/*   Updated: 2025/04/12 00:29:40 by ticasali         ###   ########.fr       */
+/*   Updated: 2025/04/12 02:05:35 by ticasali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_array	init_dynamic_array(size_t size)
 
 	output.arr = malloc(sizeof(char) * size);
 	if (output.arr == NULL)
-		error("Malloc\n", output);
+		error("malloc", output);
 	output.size = 0;
 	output.capacity = size;
 	return (output);

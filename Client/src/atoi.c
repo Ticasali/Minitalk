@@ -6,7 +6,7 @@
 /*   By: ticasali <ticasali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 00:11:05 by ticasali          #+#    #+#             */
-/*   Updated: 2025/04/05 14:39:35 by ticasali         ###   ########.fr       */
+/*   Updated: 2025/04/12 02:16:59 by ticasali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,20 @@ int	ft_putstr(char *str)
 		++ct;
 	}
 	return (-1);
+}
+
+int	ft_digit(char *str)
+{
+	size_t	ct;
+
+	ct = 0;
+	while (str[ct] != '\0')
+	{
+		if (str[ct] <= 47 || str[ct] >= 58)
+			return (0);
+		++ct;
+	}
+	return (1);
 }
 
 int	ft_atoi(char const *str)

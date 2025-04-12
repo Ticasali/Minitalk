@@ -6,13 +6,13 @@
 /*   By: ticasali <ticasali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 12:28:51 by ticasali          #+#    #+#             */
-/*   Updated: 2025/04/12 01:01:19 by ticasali         ###   ########.fr       */
+/*   Updated: 2025/04/12 02:45:05 by ticasali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/client.h"
 
-volatile sig_atomic_t	g_lobal = 0;
+volatile bool	g_lobal;
 
 void	send_bit(char c, int pid)
 {
@@ -21,7 +21,7 @@ void	send_bit(char c, int pid)
 	ct = 128;
 	while (ct >= 1)
 	{
-		if (!g_lobal)
+		if (g_lobal == true)
 		{
 			if (ct & c)
 			{
@@ -34,7 +34,7 @@ void	send_bit(char c, int pid)
 					error("Error Signal!\n");
 			}
 			ct /= 2;
-			g_lobal = 1;
+			g_lobal = false;
 		}
 	}
 }
@@ -53,11 +53,10 @@ int	send_str(int pid, char *str)
 	return (0);
 }
 
-void	ft_signal(int sigval, siginfo_t *siginfo, void *context)
+void	ft_signal(int sigval)
 {
-	(void)context;
-	(void)siginfo;
-	g_lobal = 0;
+	usleep(100);
+	g_lobal = true;
 	if (sigval == SIGUSR1)
 		write(1, "Signal Check From Server\n", 26);
 	return ;
@@ -67,9 +66,10 @@ void	client(int argc, char **argv)
 {
 	struct sigaction	sa;
 
+	g_lobal = true;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = ft_signal;
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sa.sa_handler = ft_signal;
 	if (sigaction(SIGUSR2, &sa, NULL) == -1)
 	{
 		error("Error Signal Client\n");
